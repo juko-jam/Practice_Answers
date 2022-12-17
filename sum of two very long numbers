@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+#pragma warning (disable:4996)
+
+void long_sum(char num_1[], char num_2[], char* p)
+{
+
+	// it is garanteed that num1 is greater than num2
+	int len_1 = strlen(num_1);
+	int len_2 = strlen(num_2);
+	int gap = len_1 - len_2;
+	int res = 0;
+	int carry = 0;
+
+	for (int i = 1; i <= len_2; i++)
+	{
+		res = (num_1[len_1 - i] - '0') + (num_2[len_2 - i] - '0') + carry;
+		carry = res / 10;
+		*(p + len_1 - i) = (res % 10) + 48;
+	}
+
+	for (int i = gap - 1; i >= 0; i--)
+	{
+		res = (int)(num_1[i] - '0') + carry;
+		carry = res / 10;
+		*(p + i) = (res % 10) + 48;
+	}
+	if (carry == 1)
+	{
+		printf("1");
+	}
+	*(p + strlen(num_1)) = '\0';
+
+}
+
+int main()
+{
+	char num_1[200];
+	char num_2[200];
+	char* p_num;
+
+	scanf("%s", num_1);
+	scanf("%s", num_2);
+
+	if (strlen(num_1) > strlen(num_2))
+	{
+		p_num = (char*)malloc(sizeof(char) * (strlen(num_1) + 1));
+		long_sum(num_1, num_2, p_num);
+	}
+	else
+	{
+		p_num = (char*)malloc(sizeof(char) * strlen(num_2));
+		long_sum(num_2, num_1, p_num);
+	}
+
+	printf("%s", p_num);
+
+
+
+}
+
